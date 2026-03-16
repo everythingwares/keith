@@ -1,1 +1,693 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keith Rivera | IT Educator & Consultant</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: rgba(255,255,255,0.06);
+      --card: rgba(10, 20, 38, 0.78);
+      --line: rgba(120, 200, 255, 0.18);
+      --text: #eef6ff;
+      --muted: #9db2cc;
+      --cyan: #4fd8ff;
+      --blue: #4a7cff;
+      --glow: 0 0 30px rgba(79, 216, 255, 0.18);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(74,124,255,0.22), transparent 35%),
+        radial-gradient(circle at top right, rgba(79,216,255,0.18), transparent 28%),
+        linear-gradient(135deg, #040812, #07111f 45%, #08182d);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 90%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(4, 10, 20, 0.58);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .logo-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(79,216,255,0.26), rgba(74,124,255,0.22));
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: var(--glow);
+      color: var(--cyan);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .btn {
+      text-decoration: none;
+      color: var(--text);
+      transition: 0.25s ease;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover { color: var(--cyan); }
+
+    .hero {
+      padding: 72px 0 42px;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--cyan);
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 5.4rem);
+      line-height: 0.96;
+      margin: 0 0 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff 10%, #9defff 45%, #6ea6ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+              background-clip: text;
+              color: transparent;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 740px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(79,216,255,0.24), rgba(74,124,255,0.22));
+      box-shadow: var(--glow);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(79,216,255,0.45);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .stat,
+    .card,
+    .timeline-item,
+    .skill-pill,
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--glow);
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat h3 {
+      margin: 0;
+      font-size: 1.75rem;
+      color: var(--cyan);
+    }
+
+    .stat p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .profile-card {
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -30px auto;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(79,216,255,0.2), transparent 70%);
+      border-radius: 50%;
+    }
+
+    .avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1.05;
+      border-radius: 24px;
+      background:
+        linear-gradient(160deg, rgba(79,216,255,0.18), rgba(74,124,255,0.1)),
+        linear-gradient(135deg, #0d1d35, #091323);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(3rem, 8vw, 5.2rem);
+      font-weight: 900;
+      color: var(--cyan);
+      margin-bottom: 18px;
+    }
+
+    .mini-info {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .section {
+      padding: 40px 0;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.7rem, 3vw, 2.8rem);
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 640px;
+      line-height: 1.7;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    .card .icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      color: var(--cyan);
+      font-size: 1.25rem;
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 18px;
+    }
+
+    .timeline-year {
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 0.98rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .timeline-item h3 {
+      margin: 0 0 8px;
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .skills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .skill-pill {
+      padding: 12px 16px;
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .contact-card {
+      padding: 22px;
+    }
+
+    .contact-card h3 {
+      margin: 0 0 10px;
+    }
+
+    .contact-card p,
+    .contact-card a {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      text-decoration: none;
+    }
+
+    .contact-card a:hover { color: var(--cyan); }
+
+    footer {
+      padding: 26px 0 40px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .cards,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-wrap {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      h1 { line-height: 1.02; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-wrap">
+      <div class="logo">
+        <div class="logo-badge">KR</div>
+        <span>Keith Rivera</span>
+      </div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#journey">Journey</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">⚡ Tech Educator • Digital Creator • IT Consultant</div>
+        <h1>
+          Building smarter learning,<br>
+          stronger systems, and<br>
+          <span class="gradient-text">modern digital solutions.</span>
+        </h1>
+        <p class="lead">
+          Keith Rivera is an IT educator, content creator, and corporate IT consultant based in the Philippines. He helps students, professionals, and organizations understand technology in practical ways—from digital productivity and computer fundamentals to content creation, systems improvement, and modern workplace tools.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#contact">Work With Keith</a>
+          <a class="btn" href="#about">Explore Profile</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <h3>IT</h3>
+            <p>Focused on practical, real-world technology education</p>
+          </div>
+          <div class="stat">
+            <h3>Digital</h3>
+            <p>Bridging training, consulting, and content creation</p>
+          </div>
+          <div class="stat">
+            <h3>Modern</h3>
+            <p>Delivering tech solutions with a clean professional style</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-card card">
+        <div class="avatar">KR</div>
+        <div class="mini-info">
+          <div class="mini-row"><span>Base</span><strong>Philippines</strong></div>
+          <div class="mini-row"><span>Specialization</span><strong>IT Training & Consulting</strong></div>
+          <div class="mini-row"><span>Focus</span><strong>Education • Productivity • Digital Systems</strong></div>
+          <div class="mini-row"><span>Style</span><strong>Techie, modern, results-driven</strong></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-title">
+          <h2>About Keith</h2>
+          <p>
+            Keith combines technical knowledge, teaching experience, and creative communication. His work is centered on making technology easier to understand, easier to apply, and more valuable for learners, teams, and businesses.
+          </p>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="icon">🧠</div>
+            <h3>IT Educator</h3>
+            <p>
+              Delivers learning experiences in computer fundamentals, multimedia systems, digital tools, productivity applications, and technology-driven workflows.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">🎬</div>
+            <h3>Content Creator</h3>
+            <p>
+              Creates engaging tech content designed to simplify complex topics and turn useful knowledge into practical, easy-to-follow lessons.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">💼</div>
+            <h3>Corporate Consultant</h3>
+            <p>
+              Supports organizations through training, consulting, and digital improvement strategies that boost efficiency, confidence, and workplace capability.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="expertise">
+      <div class="container">
+        <div class="section-title">
+          <h2>Core Expertise</h2>
+          <p>
+            A strong mix of instruction, implementation, and creative problem solving across education, business, and digital transformation.
+          </p>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="icon">🖥️</div>
+            <h3>Computer & Digital Literacy</h3>
+            <p>
+              Helping learners and teams build confidence in essential tools, systems, and everyday technology use.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">📊</div>
+            <h3>Productivity & Office Tools</h3>
+            <p>
+              Training users to work smarter using office applications, digital organization, and streamlined workflows.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">🎨</div>
+            <h3>Graphic & Multimedia Work</h3>
+            <p>
+              Applying visual communication, design sense, and creative production to modern digital content.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">📣</div>
+            <h3>Seminars & Resource Speaking</h3>
+            <p>
+              Delivering talks and structured sessions that are informative, relevant, and audience-friendly.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">🏢</div>
+            <h3>Corporate Training</h3>
+            <p>
+              Designing professional learning sessions aligned with business needs, employee performance, and digital readiness.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">🚀</div>
+            <h3>Tech Consulting</h3>
+            <p>
+              Advising clients on tools, systems, and practical solutions that improve operations and support growth.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <div class="container">
+        <div class="section-title">
+          <h2>Professional Journey</h2>
+          <p>
+            Keith’s direction is built around one clear mission: use technology to educate, empower, and create measurable impact.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year">Foundation</div>
+            <div>
+              <h3>Teaching technology with clarity</h3>
+              <p>
+                Developed a strong educational approach focused on making technical topics simpler, more relatable, and more useful to learners from different backgrounds.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">Growth</div>
+            <div>
+              <h3>Expanding into digital content and consulting</h3>
+              <p>
+                Combined instruction with content creation and consulting work to serve both academic and professional audiences in a more dynamic way.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">Today</div>
+            <div>
+              <h3>Driving modern learning and digital improvement</h3>
+              <p>
+                Continues to support students, educators, professionals, and companies through practical tech education, modern design thinking, and solution-oriented execution.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-title">
+          <h2>Skills & Focus Areas</h2>
+          <p>
+            The blend that defines Keith’s brand: professional, modern, and strongly rooted in useful technology.
+          </p>
+        </div>
+        <div class="skills-wrap">
+          <div class="skill-pill">IT Education</div>
+          <div class="skill-pill">Corporate Training</div>
+          <div class="skill-pill">Digital Productivity</div>
+          <div class="skill-pill">Computer Fundamentals</div>
+          <div class="skill-pill">Graphic Design</div>
+          <div class="skill-pill">Multimedia Systems</div>
+          <div class="skill-pill">Content Creation</div>
+          <div class="skill-pill">Video Editing</div>
+          <div class="skill-pill">Digital Marketing</div>
+          <div class="skill-pill">Professional Speaking</div>
+          <div class="skill-pill">Business Consulting</div>
+          <div class="skill-pill">Modern Tech Solutions</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-title">
+          <h2>Let’s Connect</h2>
+          <p>
+            Open for collaborations, seminars, corporate training programs, consulting projects, and digital education opportunities.
+          </p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3>Professional Profile</h3>
+            <p>Keith Rivera</p>
+            <p>IT Educator • Content Creator • Corporate IT Consultant</p>
+          </div>
+          <div class="contact-card">
+            <h3>Location</h3>
+            <p>Philippines</p>
+            <p>Available for online and onsite engagements</p>
+          </div>
+          <div class="contact-card">
+            <h3>Opportunity Focus</h3>
+            <p>Training programs, seminars, consulting, digital projects, and collaborations in education and business technology.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Keith Rivera. Designed with a modern tech-inspired style.
+    </div>
+  </footer>
+</body>
+</html>
